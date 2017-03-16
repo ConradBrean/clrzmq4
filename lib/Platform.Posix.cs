@@ -84,7 +84,7 @@
 
 			public static UnmanagedLibrary LoadUnmanagedLibrary(string libraryName)
 			{
-				if (string.IsNullOrWhiteSpace(libraryName))
+				if (Extensions.IsNullOrWhiteSpace(libraryName))
 				{
 					throw new ArgumentException("A valid library name is expected.", "libraryName");
 				}
@@ -115,7 +115,7 @@
 
 				string architecture;
 				string[] architecturePaths = null;
-				if (Platform.Architecture == ImageFileMachine.I386 && Environment.Is64BitProcess) 
+				if (Platform.Architecture == ImageFileMachine.I386 && IntPtr.Size == 8) 
 				{
 					architecture = "amd64";
 				}
@@ -147,7 +147,7 @@
 
 					if (string.IsNullOrEmpty(folder) || !Directory.Exists(folder)) continue;
 
-					string[] files = Directory.EnumerateFiles(folder, filesPattern, SearchOption.TopDirectoryOnly).ToArray();
+					string[] files = Directory.GetFiles(folder, filesPattern, SearchOption.TopDirectoryOnly);
 
 					foreach (string file in files)
 					{
@@ -245,7 +245,7 @@
 							line = line.Substring(0, commentI);
 						}
 
-						if (string.IsNullOrWhiteSpace(line.Trim())) continue;
+						if (Extensions.IsNullOrWhiteSpace(line.Trim())) continue;
 
 						// Include /etc/ld.so.conf.d/*.conf, say enumerate files
 						if (line.StartsWith("include ", StringComparison.OrdinalIgnoreCase))
@@ -265,7 +265,7 @@
 
 							if (folder == null || !Directory.Exists(folder)) continue;
 
-							string[] files = Directory.EnumerateFiles(folder, filesPattern, SearchOption.TopDirectoryOnly).ToArray();
+							string[] files = Directory.GetFiles(folder, filesPattern, SearchOption.TopDirectoryOnly);
 
 							foreach (string file in files)
 							{

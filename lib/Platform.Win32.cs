@@ -42,7 +42,7 @@ namespace ZeroMQ.lib
 
 			public static UnmanagedLibrary LoadUnmanagedLibrary(string libraryName)
 			{
-				if (string.IsNullOrWhiteSpace(libraryName))
+				if (Extensions.IsNullOrWhiteSpace(libraryName))
 				{
 					throw new ArgumentException("A valid library name is expected.", "libraryName");
 				}
@@ -73,7 +73,7 @@ namespace ZeroMQ.lib
 
 				string architecture;
 				string[] architecturePaths = null;
-				if (Platform.Architecture == ImageFileMachine.I386 && Environment.Is64BitProcess)
+				if (Platform.Architecture == ImageFileMachine.I386 && IntPtr.Size == 8)
 				{
 					architecture = "amd64";
 				}
@@ -105,7 +105,7 @@ namespace ZeroMQ.lib
 
 					if (string.IsNullOrEmpty(folder) || !Directory.Exists(folder)) continue;
 
-					string[] files = Directory.EnumerateFiles(folder, filesPattern, SearchOption.TopDirectoryOnly).ToArray();
+					string[] files = Directory.GetFiles(folder, filesPattern, SearchOption.TopDirectoryOnly);
 
 					foreach (string file in files)
 					{

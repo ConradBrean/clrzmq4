@@ -371,7 +371,7 @@ namespace ZeroMQ
 			{
 				return -1;
 			}
-			Marshal.Copy(DataPtr() + _position, buffer, offset, (int)remaining);
+			Marshal.Copy(new IntPtr(DataPtr().ToInt64() + _position), buffer, offset, (int)remaining);
 
 			_position += remaining;
 			return remaining;
@@ -382,7 +382,7 @@ namespace ZeroMQ
 			if (Position + 1 > Length)
 				return -1;
 
-			int byt = Marshal.ReadByte(DataPtr() + (int)_position);
+			int byt = Marshal.ReadByte(new IntPtr(DataPtr().ToInt64() + (int)_position));
 			++_position;
 			return byt;
 		}
@@ -392,7 +392,7 @@ namespace ZeroMQ
 			if (Position + 1 > Length)
 				return default(byte);
 
-			byte byt = Marshal.ReadByte(DataPtr() + _position);
+			byte byt = Marshal.ReadByte(new IntPtr(DataPtr().ToInt64() + _position));
 			++_position;
 			return byt;
 		}
@@ -510,7 +510,7 @@ namespace ZeroMQ
 
 			unsafe
 			{
-				var bytes = (byte*)(this.DataPtr() + this._position);
+				var bytes = (byte*)(this.DataPtr().ToInt64() + this._position);
 
 				Decoder dec = encoding.GetDecoder();
 				int charCount = dec.GetCharCount(bytes, remaining, false);
@@ -572,7 +572,7 @@ namespace ZeroMQ
 
 			unsafe
 			{
-				var bytes = (byte*)(this.DataPtr() + this._position);
+				var bytes = (byte*)(this.DataPtr().ToInt64() + this._position);
 
 				Decoder dec = encoding.GetDecoder();
 				int charCount = dec.GetCharCount(bytes, remaining, false);
@@ -626,7 +626,7 @@ namespace ZeroMQ
 			{
 				throw new InvalidOperationException();
 			}
-			Marshal.Copy(buffer, offset, DataPtr() + _position, count);
+			Marshal.Copy(buffer, offset, new IntPtr(DataPtr().ToInt64() + _position), count);
 			_position += count;
 		}
 
@@ -636,7 +636,7 @@ namespace ZeroMQ
 			{
 				throw new InvalidOperationException();
 			}
-			Marshal.WriteByte(DataPtr() + _position, value);
+			Marshal.WriteByte(new IntPtr(DataPtr().ToInt64() + _position), value);
 			++_position;
 		}
 
@@ -651,7 +651,7 @@ namespace ZeroMQ
 			{
 				throw new InvalidOperationException();
 			}
-			Marshal.WriteInt16(DataPtr() + _position, value);
+			Marshal.WriteInt16(new IntPtr(DataPtr().ToInt64() + _position), value);
 			_position += 2;
 		}
 
@@ -671,7 +671,7 @@ namespace ZeroMQ
 			{
 				throw new InvalidOperationException();
 			}
-			Marshal.WriteInt32(DataPtr() + _position, value);
+			Marshal.WriteInt32(new IntPtr(DataPtr().ToInt64() + _position), value);
 			_position += 4;
 		}
 
@@ -686,7 +686,7 @@ namespace ZeroMQ
 			{
 				throw new InvalidOperationException();
 			}
-			Marshal.WriteInt64(DataPtr() + _position, value);
+			Marshal.WriteInt64(new IntPtr(DataPtr().ToInt64() + _position), value);
 			_position += 8;
 		}
 
@@ -751,7 +751,7 @@ namespace ZeroMQ
 					throw new InvalidOperationException();
 				}
 
-				byteCount = enc.GetBytes(strP, charCount, (byte*)(this.DataPtr() + this._position), byteCount, true);
+				byteCount = enc.GetBytes(strP, charCount, (byte*)(this.DataPtr().ToInt64() + this._position), byteCount, true);
 				this._position += byteCount;
 			}
 		}

@@ -176,7 +176,7 @@ namespace ZeroMQ
 
 			error = default(ZError);
 
-			if (string.IsNullOrWhiteSpace(endpoint))
+			if (Extensions.IsNullOrWhiteSpace(endpoint))
 			{
 				throw new ArgumentException("IsNullOrWhiteSpace", "endpoint");
 			}
@@ -215,7 +215,7 @@ namespace ZeroMQ
 
 			error = default(ZError);
 
-			if (string.IsNullOrWhiteSpace(endpoint))
+			if (Extensions.IsNullOrWhiteSpace(endpoint))
 			{
 				throw new ArgumentException("IsNullOrWhiteSpace", "endpoint");
 			}
@@ -254,7 +254,7 @@ namespace ZeroMQ
 
 			error = default(ZError);
 
-			if (string.IsNullOrWhiteSpace(endpoint))
+			if (Extensions.IsNullOrWhiteSpace(endpoint))
 			{
 				throw new ArgumentException("IsNullOrWhiteSpace", "endpoint");
 			}
@@ -292,7 +292,7 @@ namespace ZeroMQ
 
 			error = default(ZError);
 
-			if (string.IsNullOrWhiteSpace(endpoint))
+			if (Extensions.IsNullOrWhiteSpace(endpoint))
 			{
 				throw new ArgumentException("IsNullOrWhiteSpace", "endpoint");
 			}
@@ -334,7 +334,7 @@ namespace ZeroMQ
 			// int zmq_recv(void* socket, void* buf, size_t len, int flags);
 
 			var pin = GCHandle.Alloc(buffer, GCHandleType.Pinned);
-			IntPtr pinPtr = pin.AddrOfPinnedObject() + offset;
+			IntPtr pinPtr = new IntPtr(pin.AddrOfPinnedObject().ToInt64() + offset);
 
 			int length;
 			while (-1 == (length = zmq.recv(this.SocketPtr, pinPtr, count, (int)flags)))
@@ -378,7 +378,7 @@ namespace ZeroMQ
 			// int zmq_send (void *socket, void *buf, size_t len, int flags);
 
 			var pin = GCHandle.Alloc(buffer, GCHandleType.Pinned);
-			IntPtr pinPtr = pin.AddrOfPinnedObject() + offset;
+			IntPtr pinPtr = new IntPtr(pin.AddrOfPinnedObject().ToInt64() + offset);
 
 			int length;
 			while (-1 == (length = zmq.send(SocketPtr, pinPtr, count, (int)flags)))
@@ -1529,7 +1529,7 @@ namespace ZeroMQ
 		/// <param name="filter">IPV6 or IPV4 CIDR filter.</param>
 		public void AddTcpAcceptFilter(string filter)
 		{
-			if (string.IsNullOrWhiteSpace(filter))
+			if (Extensions.IsNullOrWhiteSpace(filter))
 			{
 				throw new ArgumentNullException("filter");
 			}

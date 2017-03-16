@@ -47,7 +47,7 @@
 
 		internal UnmanagedLibrary(string libraryName, SafeLibraryHandle libraryHandle)
 		{
-			if (string.IsNullOrWhiteSpace(libraryName))
+			if (Extensions.IsNullOrWhiteSpace(libraryName))
 			{
 				throw new ArgumentException("A valid library name is expected.", "libraryName");
 			}

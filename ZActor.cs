@@ -26,7 +26,7 @@ namespace ZeroMQ
 			: this(context, default(string), action, args)
 		{
 			var rnd0 = new byte[8];
-			using (var rng = new System.Security.Cryptography.RNGCryptoServiceProvider()) rng.GetNonZeroBytes(rnd0);
+			new System.Security.Cryptography.RNGCryptoServiceProvider().GetNonZeroBytes(rnd0);
 			this.Endpoint = string.Format("inproc://{0}", ZContext.Encoding.GetString(rnd0));
 		}
 
@@ -47,7 +47,7 @@ namespace ZeroMQ
 			: this(default(string), action, args)
 		{
 			var rnd0 = new byte[8];
-			using (var rng = new System.Security.Cryptography.RNGCryptoServiceProvider()) rng.GetNonZeroBytes(rnd0);
+			new System.Security.Cryptography.RNGCryptoServiceProvider().GetNonZeroBytes(rnd0);
 			this.Endpoint = string.Format("inproc://{0}", ZContext.Encoding.GetString(rnd0));
 		}
 
